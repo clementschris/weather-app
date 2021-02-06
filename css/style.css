@@ -49,6 +49,7 @@ body {
     background-color: rgba(255, 255, 255, .15);
     font-size: 20px;
     color: inherit;
+    margin-bottom: 20px;
 }
 
 .weather__search::placeholder {
@@ -57,6 +58,7 @@ body {
 
 .weather__today {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
@@ -75,4 +77,53 @@ body {
     font-size: 30px;
     margin: 10px 0;
     font-weight: 400;
+}
+
+.weather__indicator::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    margin-right: 10px;
+}
+
+.weather__indicator--humidity::before {
+    background-image: url(../images/humidity.png);
+}
+
+.weather__indicator--wind::before {
+    background-image: url(../images/wind.png);
+}
+
+.weather__indicator--pressure::before {
+    background-image: url(../images/pressure.png);
+}
+
+.weather__temperature {
+    font-size: 60px;
+}
+
+.weather__forecast {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.weather__forecast__icon {
+    max-width: 50%;
+}
+
+.weather__forecast__item {
+    background-color: rgba(255, 255, 255, .2);
+    border-radius: 10px;
+    margin: 0 10px 10px;
+    padding: 30px 5px 20px;
+    box-sizing: border-box;
+    min-width: 150px;
+    width: calc(20% - 20px);
+    flex-grow: 1;
 }
