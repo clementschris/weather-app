@@ -12,6 +12,28 @@ let weatherAPIKey = '54653dca6878a4649b659650fd3cbc6a';
 let weatherBaseEndpoint = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=' + weatherAPIKey;
 let forecastBaseEndpoint = 'https://api.openweathermap.org/data/2.5/forecast?units=metric&appid=' + weatherAPIKey;
 
+let weatherImages = [
+    {
+        url: 'images/clear-sky.png',
+        ids: [800]
+    },
+    {
+        url: 'images/broken-clouds.png',
+        ids: [803, 804]
+    },
+    {
+        url: 'images/few-clouds.png',
+        ids: [801]
+    },
+    {
+        url: 'images/mist.png',
+        ids: [701, 711, 721, 731, 741, 751, 761, 762, 771, 781]
+    },
+    {
+        url: 'images/'
+    }
+]
+
 let getWeatherByCityName = async (city) => {
     let endpoint = weatherBaseEndpoint + '&q=' + city;
     let response = await fetch(endpoint);
@@ -47,7 +69,6 @@ searchInp.addEventListener('keydown', async (e) => {
 })
 
 let updateCurrentWeather = (data) => {
-    console.log(data);
     city.textContent = data.name + ', ' + data.sys.country;
     day.textContent = dayOfWeek();
     humidity.textContent = data.main.humidity;
