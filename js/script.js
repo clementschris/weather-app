@@ -33,6 +33,7 @@ let getForecastByCityID = async (id) => {
             daily.push(day);
         }
     })
+    return daily;
 }
 
 searchInp.addEventListener('keydown', async (e) => {
@@ -40,7 +41,8 @@ searchInp.addEventListener('keydown', async (e) => {
         let weather = await getWeatherByCityName(searchInp.value);
         let cityID = weather.id;
         updateCurrentWeather(weather);
-        getForecastByCityID(cityID);
+        let forecast = await getForecastByCityID(cityID);
+        updateForecast(forecast);
     }
 })
 
@@ -68,12 +70,22 @@ let updateCurrentWeather = (data) => {
 let updateForecast = (forecast) => {
     forecastBlock.innerHTML = '';
     forecast.forEach(day => {
-        let iconUrl = 'http://openweathermap.org/img/wn/' + day.weather[0].icon + '2x.png';
+        let iconUrl = 'http://openweathermap.org/img/wn/' + day.weather[0].icon + '@2x.png';
+        let dayName = dayOfWeek(day.dt * 1000);
+        let temperature = day.main.temp > 0 ? '+' + Math.round(day.main.temp) : Math.round(day.main.temp);
+        let forecastItem = `
+            <article class="weather__forecast__item">
+            <img src="${iconUrl}" alt="${day.weather[0].description}" class="weather__forecast__icon">
+            <h3 class="weather__forecast__day">${dayName}</h3>
+            <p class="weather__forecast__temperature"><span class="value">${temperature}</span> &deg;C</p>
+            </article>
+        `;
+        forecastBlock.insertAdjacentHTML('beforeend', forecastItem);
     })
 }
 
-let dayOfWeek = () => {
-    return new Date().toLocaleDateString('en-EN', {'weekday': 'long'});
+let dayOfWeek = (dt = new Date().getTime()) => {
+    return new Date(dt).toLocaleDateString('en-EN', {'weekday': 'long'});
 }
 
 
