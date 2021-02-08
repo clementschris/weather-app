@@ -91,6 +91,9 @@ searchInp.addEventListener('input', async () => {
     }
     let endpoint = geocodingBaseEndpoint + searchInp.value;
     let result = await (await fetch(endpoint)).json();
+    result.forEach((city) => {
+        console.log(`${city.name}${city.state ? ', ' + city.state : ''}, ${city.country}`);
+    })
 })
 
 let updateCurrentWeather = (data) => {
