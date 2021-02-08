@@ -8,6 +8,8 @@ let image = document.querySelector('.weather__image');
 let temperature = document.querySelector('.weather__temperature>.value');
 let forecastBlock = document.querySelector('.weather__forecast');
 
+let datalist = document.getElementById('suggestions');
+
 let weatherAPIKey = '54653dca6878a4649b659650fd3cbc6a';
 let weatherBaseEndpoint = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=' + weatherAPIKey;
 let forecastBaseEndpoint = 'https://api.openweathermap.org/data/2.5/forecast?units=metric&appid=' + weatherAPIKey;
@@ -76,13 +78,20 @@ let getForecastByCityID = async (id) => {
     return daily;
 }
 
+let weatherForCity = async (city) => {
+    let weather = await getWeatherByCityName(city);
+    if(weather.cod === '404') {
+        return;
+    }
+    let cityID = weather.id;
+    updateCurrentWeather(weather);
+    let forecast = await getForecastByCityID(cityID);
+    updateForecast(forecast);
+}
+
 searchInp.addEventListener('keydown', async (e) => {
     if(e.keyCode === 13) {
-        let weather = await getWeatherByCityName(searchInp.value);
-        let cityID = weather.id;
-        updateCurrentWeather(weather);
-        let forecast = await getForecastByCityID(cityID);
-        updateForecast(forecast);
+        weatherForCity(searchInp.value);
     }
 })
 searchInp.addEventListener('input', async () => {
@@ -91,8 +100,11 @@ searchInp.addEventListener('input', async () => {
     }
     let endpoint = geocodingBaseEndpoint + searchInp.value;
     let result = await (await fetch(endpoint)).json();
+    datalist.innerHTML = '';
     result.forEach((city) => {
-        console.log(`${city.name}${city.state ? ', ' + city.state : ''}, ${city.country}`);
+        let option = document.createElement('option');
+        option.value = `${city.name}${city.state ? ', ' + city.state : ''}, ${city.country}`;
+        datalist.appendChild(option);
     })
 })
 
@@ -144,5 +156,8 @@ let dayOfWeek = (dt = new Date().getTime()) => {
     return new Date(dt).toLocaleDateString('en-EN', {'weekday': 'long'});
 }
 
-
-// http://openweathermap.org/img/wn/
+let init = async () => {
+    await weatherForCity('Toronto');
+    document.body.style.filter = 'blur(0)';
+}
+init();

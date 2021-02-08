@@ -2,4 +2,6 @@
 
 >> The link to view this is hosted at: https://clementschris.github.io/weather-app/
 
->> Thanks for checking on my code! This is an unfinished project so please check back soon to view the finished app!
+>> weather-app is a modern weather website using API to search your cities and countries for a 5-day weather forecast.
+
+>> Thanks for checking on my project! This was made following a tutorial by Vertex Academy on Udemy and built by Chris Clements.
