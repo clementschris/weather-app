@@ -11,6 +11,7 @@ let forecastBlock = document.querySelector('.weather__forecast');
 let weatherAPIKey = '54653dca6878a4649b659650fd3cbc6a';
 let weatherBaseEndpoint = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=' + weatherAPIKey;
 let forecastBaseEndpoint = 'https://api.openweathermap.org/data/2.5/forecast?units=metric&appid=' + weatherAPIKey;
+let geocodingBaseEndpoint = 'http://api.openweathermap.org/geo/1.0/direct?&limit=5&appid=' + weatherAPIKey + '&q=';
 
 let weatherImages = [
     {
@@ -83,6 +84,13 @@ searchInp.addEventListener('keydown', async (e) => {
         let forecast = await getForecastByCityID(cityID);
         updateForecast(forecast);
     }
+})
+searchInp.addEventListener('input', async () => {
+    if(searchInp.value.length <= 2) {
+        return;
+    }
+    let endpoint = geocodingBaseEndpoint + searchInp.value;
+    let result = await (await fetch(endpoint)).json();
 })
 
 let updateCurrentWeather = (data) => {
